@@ -56,7 +56,7 @@ function analyzeSalesData(data, options) {
         throw new Error("Некорректные входные данные: отсутствуют продавцы");
     }
 
-    if (!data.product || !Array.isArray(data.product) || data.product.length === 0) {
+    if (!data.products || !Array.isArray(data.products) || data.products.length === 0) {
         throw new Error("Некорректные входные данные: отсутствуют товары");
     }
 
@@ -98,8 +98,8 @@ function analyzeSalesData(data, options) {
     });
 
     const productIndex = {};
-    data.product.forEach(product => {       // поиск товара по SKU
-        sellerIndex[seller.id] = product;
+    data.products.forEach(product => {       // поиск товара по SKU
+        productIndex[product.sku] = product;
     });
 
     // @TODO: Расчет выручки и прибыли для каждого продавца
@@ -108,7 +108,7 @@ function analyzeSalesData(data, options) {
         const seller = sellerIndex[record.seller_id];
 
         if (!seller) {
-            console.warn('Продавец с ID ${records.seller_id} не найден, пропуск записи');       // если не найден
+            console.warn(`Продавец с ID ${record.seller_id} не найден, пропуск записи`);       // если не найден
             return;
         }
 
@@ -118,7 +118,7 @@ function analyzeSalesData(data, options) {
             const product = productIndex[item.sku];                                             // находим карточку товара по номеру sku
 
         if (!product) {                                                                         // если такого товара нет
-            console.warn('Товар с SKU ${item.sku} не найден, пропускаем');
+            console.warn(`Товар с SKU ${item.sku} не найден, пропускаем`);
             return;
         }
 
@@ -163,7 +163,7 @@ function analyzeSalesData(data, options) {
 
     return sellerStats.map(seller => ({
         seller_id: seller.id,
-        name: '&{seller.first_name} ${seller.last_name}',
+        name: `${seller.first_name} ${seller.last_name}`,
         revenue: Number(seller.revenue.toFixed(2)),                                               // округлили до 2-х значений после запятой
         profit: Number(seller.profit.toFixed(2)),
         sales_count: seller.sales_count,
