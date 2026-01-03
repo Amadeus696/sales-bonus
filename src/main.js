@@ -67,7 +67,7 @@ function analyzeSalesData(data, options) {
     // @TODO: Проверка наличия опций
 
     if (!options || typeof options !== 'object') {
-        throw new Error("Неверные опции рассчета");
+        throw new Error("Неверные опции расчета");
     }
 
     if (typeof options.calculateRevenue !== 'function') {
@@ -152,8 +152,7 @@ function analyzeSalesData(data, options) {
     seller.top_products = Object.entries(seller.products_sold)                                    // преобразуем объект products_sold в массив и сортируем
         .map(([sku, quantity]) => ({
             sku,
-            quantity,
-            name: productIndex[sku]?.name || sku                                                  // добавляем название товара
+            quantity
         }))
         .sort((a, b) => b.quantity - a.quantity)                                                  // сортируем по убыванию кол-ва
         .slice(0, 10);                                                                            // берем первые 10
