@@ -113,6 +113,7 @@ function analyzeSalesData(data, options) {
         }
 
         seller.sales_count += 1;                                                                // увеличиваем количество чеков
+        seller.revenue += record.total_amount - record.total_discount;
 
         record.items.forEach(item => {                                                          // проходим по каждому товару в чеке
             const product = productIndex[item.sku];                                             // находим карточку товара по номеру sku
@@ -128,7 +129,6 @@ function analyzeSalesData(data, options) {
 
         const profit = revenue - cost;                                                           // прибыль от этого товара
 
-        seller.revenue += revenue;                                                               // добавляем к статистике продавца
         seller.profit += profit;
 
         if (!seller.products_sold[item.sku]) {                                                   // считаем количество проданных товаров по SKU
