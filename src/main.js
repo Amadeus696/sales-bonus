@@ -128,7 +128,7 @@ function analyzeSalesData(data, options) {
 
         const profit = revenue - cost;                                                           // прибыль от этого товара
 
-        seller.revenue += record.total_amount - record.total_discount;                           // добавляем к статистике продавца
+        seller.revenue += revenue;                                                               // добавляем к статистике продавца
         seller.profit += profit;
 
         if (!seller.products_sold[item.sku]) {                                                   // считаем количество проданных товаров по SKU
